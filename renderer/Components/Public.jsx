@@ -8,6 +8,7 @@ import PublicJournals from "./PublicJournals/PublicJournals";
 import { BookOpen, FileText } from "lucide-react";
 
 const getCurrentUser = () => {
+  if (typeof window === 'undefined') return null; // SSR safety
   try {
     const itemStr = localStorage.getItem("user");
     if (!itemStr) return null;

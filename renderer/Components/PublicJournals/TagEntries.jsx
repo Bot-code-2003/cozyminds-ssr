@@ -13,6 +13,7 @@ import JournalCard, {
 const API = axios.create({ baseURL: import.meta.env.VITE_API_URL });
 
 const getCurrentUser = () => {
+  if (typeof window === 'undefined') return null; // SSR safety
   try {
     const itemStr = localStorage.getItem("user");
     if (!itemStr) return null;

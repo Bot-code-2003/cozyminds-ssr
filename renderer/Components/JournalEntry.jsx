@@ -56,6 +56,7 @@ const getAvatarSvg = (style, seed) => {
 };
 
 const getCurrentUser = () => {
+  if (typeof window === 'undefined') return null; // SSR safety
   try {
     const itemStr = localStorage.getItem("user");
     if (!itemStr) return null;

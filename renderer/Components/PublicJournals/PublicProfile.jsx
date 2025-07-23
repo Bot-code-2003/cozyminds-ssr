@@ -344,6 +344,7 @@ const PublicProfile = () => {
   const { modals, openLoginModal, openSignupModal } = AuthModals({ darkMode });
 
   const getCurrentUser = () => {
+    if (typeof window === 'undefined') return null; // SSR safety
     try {
       const itemStr =
         localStorage.getItem("user") || sessionStorage.getItem("user");

@@ -36,6 +36,7 @@ export function setWithExpiry(key, value, ttlMs) {
 }
 
 export function getWithExpiry(key) {
+  if (typeof window === 'undefined') return null; // SSR safety
   const itemStr = localStorage.getItem(key);
   if (!itemStr) {
     return null;
@@ -56,6 +57,7 @@ export function getWithExpiry(key) {
 
 // Utility function for logout
 export function logout() {
+  if (typeof window === 'undefined') return; // SSR safety
   localStorage.removeItem("user");
   window.dispatchEvent(new CustomEvent("user-logged-out"));
 }

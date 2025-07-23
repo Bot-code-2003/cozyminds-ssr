@@ -108,6 +108,23 @@ const getDefaultProfileTheme = (anonymousName) => ({
   avatarStyle: getDeterministicAvatarStyle(anonymousName),
 });
 
+const getCurrentUser = () => {
+  if (typeof window === 'undefined') return null; // SSR safety
+  try {
+    const itemStr = localStorage.getItem('user');
+    if (!itemStr) return null;
+    const item = JSON.parse(itemStr);
+    const now = new Date();
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem('user');
+      return null;
+    }
+    return item.value;
+  } catch (error) {
+    return null;
+  }
+};
+
 const ProfileSettings = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);

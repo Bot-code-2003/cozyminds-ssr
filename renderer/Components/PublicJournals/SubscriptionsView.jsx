@@ -74,6 +74,7 @@ const SubscriptionsView = () => {
   const { darkMode, setDarkMode } = useDarkMode();
 
   const getCurrentUser = () => {
+    if (typeof window === 'undefined') return null; // SSR safety
     try {
       const itemStr = localStorage.getItem("user");
       if (!itemStr) return null;

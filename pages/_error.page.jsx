@@ -11,3 +11,5 @@ export function Page() {
 
 export const documentProps = {
     title: "404 – Not Found",
+
+}
