@@ -1,74 +1,127 @@
-// This file isn't processed by Vite, see https://github.com/brillout/vite-plugin-ssr/issues/562
-// Consequently:
-//  - When changing this file, you needed to manually restart your server for your changes to take effect.
-//  - To use your environment variables defined in your .env files, you need to install dotenv, see https://vite-plugin-ssr.com/env
-//  - To use your path aliases defined in your vite.config.js, you need to tell Node.js about them, see https://vite-plugin-ssr.com/path-aliases
+import express, { urlencoded } from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import axios from "axios";
+import path from "path";
+import { fileURLToPath } from "url";
+import compression from "compression";
+import { renderPage } from "vite-plugin-ssr/server";
+import { createServer as createViteServer } from "vite";
 
-// If you want Vite to process your server code then use one of these:
-//  - vavite (https://github.com/cyco130/vavite)
-//     - See vavite + vite-pugin-ssr examples at https://github.com/cyco130/vavite/tree/main/examples
-//  - vite-node (https://github.com/antfu/vite-node)
-//  - HatTip (https://github.com/hattipjs/hattip)
-//    - You can use Bati (https://batijs.github.io/) to scaffold a vite-plugin-ssr + HatTip app. Note that Bati generates apps that use the V1 design (https://vite-plugin-ssr.com/migration/v1-design) and Vike packages (https://vite-plugin-ssr.com/vike-packages)
+// Import your routes
+import userRoutes from "./routes/userRoutes.js";
+import journalRoutes from "./routes/journalRoutes.js";
+import mailRoutes from "./routes/mailRoutes.js";
+import subscriptionRoutes from "./routes/subscriptionRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
+import sitemapRoutes from "./routes/sitemapRoutes.js";
+import feedbackRoutes from "./routes/feedbackRoutes.js";
 
-import express from 'express'
-import compression from 'compression'
-import { renderPage } from 'vite-plugin-ssr/server'
-import { root } from './root.js'
-const isProduction = process.env.NODE_ENV === 'production'
+// Setup Express
+const app = express();
+app.use(compression());
+app.use(express.json());
+app.use(urlencoded({ extended: true }));
 
-startServer()
+// CORS setup
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://starlitjournals.com",
+  "https://www.starlitjournals.com",
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, origin || "*");
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+app.options("*", cors());
+
+// Route: Root
+app.get("/api", (req, res) => {
+  res.send("Hello from Starlit Journals API!");
+});
+
+// Use Routers
+app.use("/", userRoutes);
+app.use("/", journalRoutes);
+app.use("/", mailRoutes);
+app.use("/", subscriptionRoutes);
+app.use("/", commentRoutes);
+app.use("/api", sitemapRoutes);
+app.use("/", feedbackRoutes);
+
+// -- Optional Proxy Image Endpoint (uncomment if needed)
+// app.get("/proxy-image", async (req, res) => {
+//   const imageUrl = req.query.url;
+//   if (!imageUrl) return res.status(400).send("Image URL is required");
+
+//   try {
+//     const response = await axios.get(imageUrl, { responseType: "stream" });
+//     res.set("Content-Type", response.headers["content-type"]);
+//     response.data.pipe(res);
+//   } catch (error) {
+//     console.error("Error fetching image:", error.message);
+//     res.status(500).send("Error fetching image");
+//   }
+// });
+
+// ------------------ SSR Setup Below ------------------
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isProd = process.env.NODE_ENV === "production";
+const root = path.resolve(__dirname, "..");
 
 async function startServer() {
-  const app = express()
+  if (isProd) {
+    app.use(express.static(path.join(root, "dist/client")));
 
-  app.use(compression())
-
-  // Vite integration
-  if (isProduction) {
-    // In production, we need to serve our static assets ourselves.
-    // (In dev, Vite's middleware serves our static assets.)
-    const sirv = (await import('sirv')).default
-    app.use(sirv(`${root}/dist/client`))
+    app.get("*", async (req, res, next) => {
+      const pageContextInit = { urlOriginal: req.originalUrl };
+      const result = await renderPage(pageContextInit);
+      if (result.nothingRendered) return next();
+      res.status(result.statusCode).send(result.renderedHtml);
+    });
   } else {
-    // We instantiate Vite's development server and integrate its middleware to our server.
-    // ⚠️ We instantiate it only in development. (It isn't needed in production and it
-    // would unnecessarily bloat our production server.)
-    const vite = await import('vite')
-    const viteDevMiddleware = (
-      await vite.createServer({
-        root,
-        server: { middlewareMode: true }
-      })
-    ).middlewares
-    app.use(viteDevMiddleware)
+    const vite = await createViteServer({
+      root,
+      server: { middlewareMode: "ssr" },
+    });
+
+    app.use(vite.middlewares);
+
+    app.get("*", async (req, res, next) => {
+      try {
+        const pageContextInit = { urlOriginal: req.originalUrl };
+        const result = await renderPage(pageContextInit);
+        if (result.nothingRendered) return next();
+        res.status(result.statusCode).send(result.renderedHtml);
+      } catch (e) {
+        vite.ssrFixStacktrace(e);
+        next(e);
+      }
+    });
   }
 
-  // ...
-  // Other middlewares (e.g. some RPC middleware such as Telefunc)
-  // ...
-
-  // Vite-plugin-ssr middleware. It should always be our last middleware (because it's a
-  // catch-all middleware superseding any middleware placed after it).
-  app.get('*', async (req, res, next) => {
-    const pageContextInit = {
-      urlOriginal: req.originalUrl
-    }
-    const pageContext = await renderPage(pageContextInit)
-    const { httpResponse } = pageContext
-    if (!httpResponse) {
-      return next()
-    } else {
-      const { body, statusCode, headers, earlyHints } = httpResponse
-      if (res.writeEarlyHints) res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) })
-      headers.forEach(([name, value]) => res.setHeader(name, value))
-      res.status(statusCode)
-      // For HTTP streams use httpResponse.pipe() instead, see https://vite-plugin-ssr.com/stream
-      res.send(body)
-    }
-  })
-
-  const port = process.env.PORT || 3000
-  app.listen(port)
-  console.log(`Server running at http://localhost:${port}`)
+  // Connect to MongoDB and start server
+  const mongoURL = "mongodb://localhost:27017/CozyMind";
+  mongoose
+    .connect(mongoURL)
+    .then(() => {
+      const PORT = process.env.PORT || 3000;
+      app.listen(PORT, () =>
+        console.log(`🚀 Server running at http://localhost:${PORT}`)
+      );
+    })
+    .catch((err) => console.log("MongoDB connection error:", err));
 }
+
+startServer();

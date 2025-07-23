@@ -1,22 +1,41 @@
-export { render }
+export { render };
 
-import { hydrateRoot } from 'react-dom/client'
-import { PageShell } from './PageShell'
+import { hydrateRoot } from "react-dom/client";
+import { PageShell } from "./PageShell";
 
-// This render() hook only supports SSR, see https://vite-plugin-ssr.com/render-modes for how to modify render() to support SPA
+// 🧠 Import your providers
+import { ThemeProvider } from "./context/ThemeContext";
+import { MailProvider } from "./context/MailContext";
+import { PublicJournalsProvider } from "./context/PublicJournalsContext";
+import { PublicStoriesProvider } from "./context/PublicStoriesContext";
+import { BrowserRouter } from "react-router-dom"; // ✅ Import this
+
 async function render(pageContext) {
-  const { Page, pageProps } = pageContext
-  if (!Page) throw new Error('Client-side render() hook expects pageContext.Page to be defined')
-  const root = document.getElementById('react-root')
-  if (!root) throw new Error('DOM element #react-root not found')
+  const { Page, pageProps } = pageContext;
+  if (!Page)
+    throw new Error(
+      "Client-side render() hook expects pageContext.Page to be defined"
+    );
+
+  const root = document.getElementById("react-root");
+  if (!root) throw new Error("DOM element #react-root not found");
+
   hydrateRoot(
     root,
-    <PageShell pageContext={pageContext}>
-      <Page {...pageProps} />
-    </PageShell>
-  )
+    <BrowserRouter>
+      {" "}
+      {/* ✅ Wrap your tree with Router */}
+      <ThemeProvider>
+        <PublicJournalsProvider>
+          <PublicStoriesProvider>
+            <MailProvider>
+              <PageShell pageContext={pageContext}>
+                <Page {...pageProps} />
+              </PageShell>
+            </MailProvider>
+          </PublicStoriesProvider>
+        </PublicJournalsProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  );
 }
-
-/* To enable Client-side Routing:
-export const clientRouting = true
-// !! WARNING !! Before doing so, read https://vite-plugin-ssr.com/clientRouting */

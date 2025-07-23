@@ -1,0 +1,793 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import animations */
+@import url('./Components/styles/animations.css');
+
+/* Line clamp utilities for text truncation */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Apple-style rounded corners and shadows */
+.rounded-apple {
+  border-radius: 12px;
+}
+
+.shadow-apple {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-apple-hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Animation for fade in up effect */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Animation for slide in right effect */
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Reset for sharp corners */
+* {
+  /* border-radius: 4px !important; */
+  font-family: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.newsreader {
+  font-family: "Newsreader", serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.epilogue {
+  font-family: "Epilogue", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.roboto> {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+:root {
+  --bg-navbar: #f7fafc;           /* Soft, neutral off-white */
+  --bg-primary: #ffffff;          /* Gentle, airy blue-gray */
+  --bg-secondary: #e9eef3;        /* Slightly deeper blue-gray */
+  --bg-tertiary: #dde5ed;         /* Subtle separation, cool gray-blue */
+  --bg-hover: rgba(60, 100, 180, 0.07); /* Soft blue hover */
+
+  --text-primary: #223046;        /* Deep navy, high readability */
+  --text-secondary: #5a6b7b;      /* Calm blue-gray */
+  --text-journal-title: #1a2533;  /* Even deeper for titles */
+
+  --accent: #000000;              /* Modern blue accent */
+  --accent-rgb: 58, 125, 216;
+  --accent-hover: #21242a;
+  --accent-light: #b3d4fc;        /* Soft sky blue */
+  --accent-light-hover: #a0c4e8;
+
+  --highlight: #b98cf2;           /* Muted lavender */
+  --highlight-rgb: 185, 140, 242;
+
+  --border: #c3d0df;              /* Light, elegant border */
+  --shadow: rgba(34, 48, 70, 0.09); /* Subtle shadow */
+
+  --card-bg: #fff;
+  --card-txt: var(--text-primary);
+
+  --success: #4bbf73;             /* Soft green */
+  --error: #e26d5a;               /* Coral */
+  --warning: #f7b955;             /* Warm yellow-orange */
+
+  /* Cosmic Color Palette */
+  --cosmic-deep-blue: #1E2C55;    /* Book edges / sky */
+  --cosmic-purple: #8F6DC5;       /* Cloud shades */
+  --cosmic-lavender: #C9A7F7;     /* Cloud glow */
+  --cosmic-sky-blue: #6FC8F0;     /* Highlight stars */
+  --cosmic-white: #FFFFFF;        /* Main stars / constellation */
+  --cosmic-light-blue: #A3D9F5;   /* Upper book highlight */
+
+  /* Gradients */
+  --gradient-accent: linear-gradient(90deg, #3a7dd8 0%, #b98cf2 100%);
+  --gradient-bg: linear-gradient(120deg, #f4f7fa 0%, #e9eef3 100%);
+  --gradient-cosmic: linear-gradient(135deg, var(--cosmic-deep-blue) 0%, var(--cosmic-purple) 50%, var(--cosmic-lavender) 100%);
+  --gradient-cosmic-sky: linear-gradient(180deg, var(--cosmic-sky-blue) 0%, var(--cosmic-light-blue) 100%);
+}
+
+.dark {
+  --bg-navbar: #101a26;           /* Deep blue-navy */
+  --bg-primary: #000000;
+  --bg-secondary: #182233;
+  --bg-tertiary: #232f44;
+  --bg-hover: rgba(185, 140, 242, 0.08); /* Lavender hover */
+
+  --text-primary: #eaf2fa;        /* Soft, clear light */
+  --text-secondary: #a2b3c7;      /* Muted blue-gray */
+  --text-journal-title: #fff;
+
+  --accent: #4e86ff;              /* Soft blue accent */
+  --accent-rgb: 107, 168, 246;
+  --accent-hover: #3b73ee;
+  --accent-dark: #3a7dd8;
+  --accent-dark-hover: #2e65b3;
+
+  --highlight: #b98cf2;           /* Consistent lavender */
+  --highlight-rgb: 185, 140, 242;
+
+  --border: #2a3a4d;
+  --shadow: rgba(0, 0, 0, 0.38);
+
+  --card-bg: var(--bg-secondary);
+  --card-txt: var(--text-primary);
+
+  --success: #5fd6a3;
+  --error: #f29b8c;
+  --warning: #ffd285;
+
+  /* Cosmic Color Palette - Dark Mode */
+  --cosmic-deep-blue: #2A3A6A;    /* Brighter deep blue for dark mode */
+  --cosmic-purple: #A17DD5;       /* Brighter purple for dark mode */
+  --cosmic-lavender: #D4B8F8;     /* Brighter lavender for dark mode */
+  --cosmic-sky-blue: #7FD8F8;     /* Brighter sky blue for dark mode */
+  --cosmic-white: #FFFFFF;        /* Pure white */
+  --cosmic-light-blue: #B3E0F8;   /* Brighter light blue for dark mode */
+
+  /* Gradients */
+  --gradient-accent: linear-gradient(90deg, #6ba8f6 0%, #b98cf2 100%);
+  --gradient-bg: linear-gradient(120deg, #182233 0%, #232f44 100%);
+  --gradient-cosmic: linear-gradient(135deg, var(--cosmic-deep-blue) 0%, var(--cosmic-purple) 50%, var(--cosmic-lavender) 100%);
+  --gradient-cosmic-sky: linear-gradient(180deg, var(--cosmic-sky-blue) 0%, var(--cosmic-light-blue) 100%);
+}
+
+/* Concept Packs */
+.card-maple-wolly-toward-the-peaks {
+  background-image: url("./assets/concept_sheep.png");
+}
+.card-maple-wolly-glowpath-wanderers {
+  background-image: url("./assets/concept_sheep1.png");
+}
+.card-maple-wolly-dragons-lair {
+  background-image: url("./assets/concept_sheep2.png");
+}
+
+/* Seasonal */
+.card-christmas {
+  background-image: url("./assets/christmas.png");
+}
+
+.card-dark {
+  background-color: var(--bg-secondary);
+  color: var(--card-txt);
+  padding: 16px;
+}
+
+.card-chutulu1{
+  background-image: url("./assets/chutulu1.jpg");
+}
+
+.card-chutulu2{
+  background-image: url("./assets/chutulu2.jpg");
+}
+.card-chutulu3{
+  background-image: url("./assets/chutulu3.jpg");
+}
+.card-chutulu4{
+  background-image: url("./assets/chutulu4.jpg");
+}
+.card-chutulu5{
+  background-image: url("./assets/chutulu5.jpg");
+}
+.card-chutulu6{
+  background-image: url("./assets/chutulu6.jpg");
+}
+
+
+.card-forest {
+  background-image: url("./assets/forest.png");
+}
+
+.card-ocean {
+  background-image: url("./assets/water.png");
+}
+
+.card-black {
+  background-image: url("./assets/black-n.png");
+}
+
+.card-calm-ocean {
+  background-image: url("./assets/calm-ocean-n.png");
+}
+
+.card-night-sky {
+  background-image: url("./assets/night-sky-n.png");
+}
+
+.card-pastel-sky {
+  background-image: url("./assets/pastel-sky-n.png");
+}
+
+.card-energetic-yellow {
+  background-image: url("./assets/energetic-yellow-n.png");
+}
+
+.card-cozy-room {
+  background-image: url("./assets/cozy-room-e.png");
+}
+
+.card-country-side {
+  background-image: url("./assets/country-side-e.png");
+}
+
+.card-magical-room {
+  background-image: url("./assets/magical-room-e.png");
+}
+
+.card-northern-lights {
+  background-image: url("./assets/nothern-lights-e.png");
+}
+
+.card-post-apocalyptic {
+  background-image: url("./assets/post-apocalyptic-e.png");
+}
+
+.card-space-observe {
+  background-image: url("./assets/space-observe-e.png");
+}
+
+.card-winter-cabin {
+  background-image: url("./assets/winter-cabin-e.png");
+}
+
+.card-elf-theme {
+  background-image: url("./assets/elf.png");
+}
+
+.card-waifu-theme {
+  background-image: url("./assets/wifu.png");
+}
+
+.card-andy-the-sailor {
+  background-image: url("./assets/andy_the_sailor.png");
+}
+
+.card-default {
+  background-color: var(--accent);
+  color: var(--card-txt);
+}
+
+/* Enhanced Solid Color Cards with Dynamic Gradients and Subtle Texture */
+.card-solid-pink {
+  background: radial-gradient(
+    circle at 30% 20%,
+    #ff9ebc 0%,
+    #ff6b95 30%,
+    #a84869 70%,
+    #7b2d4a 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-pink::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 80% 80%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-blue {
+  background: radial-gradient(
+    circle at 40% 30%,
+    #6c8cff 0%,
+    #4a6bff 30%,
+    #2b305f 70%,
+    #1a2040 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-blue::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 20% 70%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-green {
+  background: radial-gradient(
+    circle at 50% 25%,
+    #74d3ae 0%,
+    #4db995 30%,
+    #1e4032 70%,
+    #0f2a1e 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-green::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 70% 30%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-lavender {
+  background: radial-gradient(
+    circle at 35% 40%,
+    #c3b1e1 0%,
+    #a68bd3 30%,
+    #3a2f4b 70%,
+    #2a1f3a 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-lavender::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 60% 20%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-peach {
+  background: radial-gradient(
+    circle at 45% 35%,
+    #ffccab 0%,
+    #ff9e6e 30%,
+    #a3552a 70%,
+    #7b3b1f 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-peach::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 30% 80%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-mint {
+  background: radial-gradient(
+    circle at 50% 30%,
+    #a0e8af 0%,
+    #71d48e 30%,
+    #2d5d52 70%,
+    #1c3b34 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-mint::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 75% 25%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-yellow {
+  background: radial-gradient(
+    circle at 40% 20%,
+    #ffe382 0%,
+    #ffcc33 30%,
+    #8a6a1e 70%,
+    #5f4a14 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-yellow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 25% 75%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-coral {
+  background: radial-gradient(
+    circle at 30% 50%,
+    #ff7e79 0%,
+    #ff4d47 30%,
+    #892c2c 70%,
+    #5e1f1f 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-coral::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-lilac {
+  background: radial-gradient(
+    circle at 50% 40%,
+    #d8a7d7 0%,
+    #b57fb4 30%,
+    #633c6a 70%,
+    #3f2744 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-lilac::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 70% 60%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+.card-solid-aqua {
+  background: radial-gradient(
+    circle at 35% 45%,
+    #90e0ef 0%,
+    #56c7d9 30%,
+    #236a75 70%,
+    #174750 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+.card-solid-aqua::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 20% 80%,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  z-index: 1;
+}
+
+/* Common styling for all cards */
+.card-forest,
+.card-ocean,
+.card-black,
+.card-calm-ocean,
+.card-night-sky,
+.card-pastel-sky,
+.card-energetic-yellow,
+.card-cozy-room,
+.card-country-side,
+.card-magical-room,
+.card-northern-lights,
+.card-post-apocalyptic,
+.card-space-observe,
+.card-winter-cabin,
+.card-solid-pink,
+.card-solid-blue,
+.card-solid-green,
+.card-solid-lavender,
+.card-solid-peach,
+.card-solid-mint,
+.card-solid-yellow,
+.card-solid-coral,
+.card-solid-lilac,
+.card-solid-aqua,
+.card-maple-wolly-toward-the-peaks,
+.card-maple-wolly-glowpath-wanderers,
+.card-maple-wolly-dragons-lair,
+.card-christmas,
+.card-elf-theme,
+.card-waifu-theme,
+.card-andy-the-sailor,
+.card-default,
+.card-chutulu1,
+.card-chutulu2,
+.card-chutulu3,
+.card-chutulu4,
+.card-chutulu5,
+.card-chutulu6 {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white !important;
+  /* background-attachment: fixed; */
+}
+
+.card-forest::before,
+.card-ocean::before,
+.card-black::before,
+.card-calm-ocean::before,
+.card-night-sky::before,
+.card-pastel-sky::before,
+.card-energetic-yellow::before,
+.card-cozy-room::before,
+.card-country-side::before,
+.card-magical-room::before,
+.card-northern-lights::before,
+.card-post-apocalyptic::before,
+.card-space-observe::before,
+.card-winter-cabin::before,
+.card-solid-pink::before,
+.card-solid-blue::before,
+.card-solid-green::before,
+.card-solid-lavender::before,
+.card-solid-peach::before,
+.card-solid-mint::before,
+.card-solid-yellow::before,
+.card-solid-coral::before,
+.card-solid-lilac::before,
+.card-solid-aqua::before,
+.card-maple-wolly-toward-the-peaks::before,
+.card-maple-wolly-glowpath-wanderers::before,
+.card-maple-wolly-dragons-lair::before,
+.card-christmas::before,
+.card-elf-theme::before,
+.card-waifu-theme::before,
+.card-andy-the-sailor::before,
+.card-default::before,
+.card-chutulu1::before,
+.card-chutulu2::before,
+.card-chutulu3::before,
+.card-chutulu4::before,
+.card-chutulu5::before,
+.card-chutulu6::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  z-index: 1;
+}
+
+.card-forest > *,
+.card-ocean > *,
+.card-black > *,
+.card-calm-ocean > *,
+.card-night-sky > *,
+.card-pastel-sky > *,
+.card-energetic-yellow > *,
+.card-cozy-room > *,
+.card-country-side > *,
+.card-magical-room > *,
+.card-northern-lights > *,
+.card-post-apocalyptic > *,
+.card-space-observe > *,
+.card-winter-cabin > *,
+.card-solid-pink > *,
+.card-solid-blue > *,
+.card-solid-green > *,
+.card-solid-lavender > *,
+.card-solid-peach > *,
+.card-solid-mint > *,
+.card-solid-yellow > *,
+.card-solid-coral > *,
+.card-solid-lilac > *,
+.card-solid-aqua > *,
+.card-maple-wolly-toward-the-peaks > *,
+.card-maple-wolly-glowpath-wanderers > *,
+.card-maple-wolly-dragons-lair > *,
+.card-christmas > *,
+.card-elf-theme > *,
+.card-waifu-theme > *,
+.card-andy-the-sailor > *,
+.card-default > *,
+.card-chutulu1 > *,
+.card-chutulu2 > *,
+.card-chutulu3 > *,
+.card-chutulu4 > *,
+.card-chutulu5 > *,
+.card-chutulu6 > * {
+  position: relative;
+  z-index: 2;
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+/* Designer Border */
+.border-designer {
+  position: relative;
+  border: 1px solid var(--accent);
+}
+
+.border-designer::before,
+.border-designer::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+.border-designer::before {
+  top: -2px;
+  left: -2px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+
+.border-designer::after {
+  bottom: -2px;
+  right: -2px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+
+/* Specific Component Styles */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 0 !important;
+}
+
+.coin-popup {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background-color: var(--accent, #70b2c0);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .rounded-apple {
+    border-radius: 1.25rem; /* 20px */
+  }
+  .shadow-apple {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+  }
+  .shadow-apple-lg {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+  }
+}
