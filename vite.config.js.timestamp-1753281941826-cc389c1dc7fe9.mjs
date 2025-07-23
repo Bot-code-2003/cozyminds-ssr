@@ -1,0 +1,13 @@
+// vite.config.js
+import react from "file:///home/project/node_modules/@vitejs/plugin-react/dist/index.js";
+import ssr from "file:///home/project/node_modules/vite-plugin-ssr/dist/esm/node/plugin/index.js";
+var vite_config_default = {
+  plugins: [react(), ssr()],
+  ssr: {
+    noExternal: ["react-router-dom"]
+  }
+};
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcuanMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvaG9tZS9wcm9qZWN0XCI7Y29uc3QgX192aXRlX2luamVjdGVkX29yaWdpbmFsX2ZpbGVuYW1lID0gXCIvaG9tZS9wcm9qZWN0L3ZpdGUuY29uZmlnLmpzXCI7Y29uc3QgX192aXRlX2luamVjdGVkX29yaWdpbmFsX2ltcG9ydF9tZXRhX3VybCA9IFwiZmlsZTovLy9ob21lL3Byb2plY3Qvdml0ZS5jb25maWcuanNcIjtpbXBvcnQgcmVhY3QgZnJvbSAnQHZpdGVqcy9wbHVnaW4tcmVhY3QnXG5pbXBvcnQgc3NyIGZyb20gJ3ZpdGUtcGx1Z2luLXNzci9wbHVnaW4nXG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgcGx1Z2luczogW3JlYWN0KCksIHNzcigpXSxcbiAgc3NyOiB7XG4gICAgbm9FeHRlcm5hbDogWydyZWFjdC1yb3V0ZXItZG9tJ11cbiAgfVxufVxuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUF5TixPQUFPLFdBQVc7QUFDM08sT0FBTyxTQUFTO0FBRWhCLElBQU8sc0JBQVE7QUFBQSxFQUNiLFNBQVMsQ0FBQyxNQUFNLEdBQUcsSUFBSSxDQUFDO0FBQUEsRUFDeEIsS0FBSztBQUFBLElBQ0gsWUFBWSxDQUFDLGtCQUFrQjtBQUFBLEVBQ2pDO0FBQ0Y7IiwKICAibmFtZXMiOiBbXQp9Cg==
