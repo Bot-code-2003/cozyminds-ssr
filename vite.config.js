@@ -3,7 +3,4 @@ import ssr from 'vite-plugin-ssr/plugin'
 
 export default {
   plugins: [react(), ssr()],
-  ssr: {
-    noExternal: ['react-router-dom']
-  }
 }
