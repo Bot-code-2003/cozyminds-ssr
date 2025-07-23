@@ -1,14 +1,16 @@
 import React from "react";
 import JournalEntry from "../../renderer/Components/JournalEntry.jsx";
 
-export default function Page({ id }) {
+export function Page({ id }) {
   return <JournalEntry id={id} />;
 }
 
-export function getPageProps({ routeParams }) {
+export function onBeforeRender({ routeParams }) {
   return {
-    pageProps: {
-      id: routeParams.id,
+    pageContext: {
+      pageProps: {
+        id: routeParams.id,
+      }
     },
   };
 }

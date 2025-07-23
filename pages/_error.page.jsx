@@ -1,4 +1,4 @@
-function Page() {
+export function Page() {
   return (
     <div
       style={{ padding: "2rem", fontFamily: "sans-serif", textAlign: "center" }}
@@ -9,9 +9,5 @@ function Page() {
   );
 }
 
-export default {
-  Page,
-  documentProps: {
+export const documentProps = {
     title: "404 – Not Found",
-  },
-};

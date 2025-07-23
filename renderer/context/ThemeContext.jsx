@@ -4,6 +4,9 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(() => {
+    // SSR safety check
+    if (typeof window === 'undefined') return false;
+    
     // Check localStorage first
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -15,6 +18,8 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     // Update localStorage and class when darkMode changes
+    if (typeof window === 'undefined') return;
+    
     if (darkMode) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -26,6 +31,8 @@ export const ThemeProvider = ({ children }) => {
 
   // Listen for system theme changes
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = (e) => {
       if (!localStorage.getItem("theme")) {

@@ -14,6 +14,8 @@ export const MailProvider = ({ children }) => {
   // Fetch mails and user data
   useEffect(() => {
     const fetchData = async (loginUser = null) => {
+      if (typeof window === 'undefined') return; // SSR safety
+      
       setLoading(true);
       setError(null);
       try {

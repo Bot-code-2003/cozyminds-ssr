@@ -1,14 +1,13 @@
 export { render };
 
 import { hydrateRoot } from "react-dom/client";
-import { PageShell } from "./PageShell";
+import { BrowserRouter } from "react-router-dom";
 
 // 🧠 Import your providers
 import { ThemeProvider } from "./context/ThemeContext";
 import { MailProvider } from "./context/MailContext";
 import { PublicJournalsProvider } from "./context/PublicJournalsContext";
 import { PublicStoriesProvider } from "./context/PublicStoriesContext";
-import { BrowserRouter } from "react-router-dom"; // ✅ Import this
 
 async function render(pageContext) {
   const { Page, pageProps } = pageContext;
@@ -23,15 +22,11 @@ async function render(pageContext) {
   hydrateRoot(
     root,
     <BrowserRouter>
-      {" "}
-      {/* ✅ Wrap your tree with Router */}
       <ThemeProvider>
         <PublicJournalsProvider>
           <PublicStoriesProvider>
             <MailProvider>
-              <PageShell pageContext={pageContext}>
-                <Page {...pageProps} />
-              </PageShell>
+              <Page {...pageProps} />
             </MailProvider>
           </PublicStoriesProvider>
         </PublicJournalsProvider>

@@ -3,9 +3,7 @@
 import { createContext, useContext, useState, useCallback, useEffect } from "react"
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useSearchParams } from "react-router-dom"; // Add this at top if not yet
-
-
+import { useSearchParams } from "react-router-dom";
 
 const API = axios.create({ baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000" })
 
@@ -29,6 +27,7 @@ export function PublicJournalsProvider({ children }) {
   const [searchParams] = useSearchParams();
 
   const getCurrentUser = () => {
+    if (typeof window === 'undefined') return null; // SSR safety
     try {
       const itemStr = localStorage.getItem("user")
       if (!itemStr) return null
